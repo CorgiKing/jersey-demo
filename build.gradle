@@ -1,0 +1,62 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.encoding = 'utf-8'
+}
+
+war {
+    manifest {
+        attributes 'Implementation-Title': 'demo'
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'demo'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    jerseyVersion = '2.25.1'
+    springVersion = '4.1.6.RELEASE'
+}
+
+dependencies {
+    
+    compile(
+    
+    	
+    	//jersey
+    	[group: 'org.glassfish.jersey.core', name: 'jersey-server', version: jerseyVersion],
+        //[group: 'org.glassfish.jersey.core', name: 'jersey-common', version: jerseyVersion],
+        [group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion],
+        [group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: jerseyVersion],
+        //与spring打通
+        [group: 'org.glassfish.jersey.ext', name: 'jersey-spring3', version: jerseyVersion],
+        
+        //spring
+        [group: 'org.springframework', name: 'spring-context', version: springVersion],
+        [group: 'org.springframework', name: 'spring-web', version: springVersion],
+        
+            )
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
